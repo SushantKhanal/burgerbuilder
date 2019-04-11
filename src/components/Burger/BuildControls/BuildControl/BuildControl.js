@@ -5,10 +5,10 @@ const buildControl = (props) => (
     <div className={classes.BuildControl}>
         <div className={classes.Label}>{props.label}</div>
         <button className={classes.Less} 
-            disabled={props.disabled.disabledInfoLess}
+            disabled={props.disabled.less}
             onClick={props.decrease}>Less</button>
         <button className={classes.More} 
-            disabled={props.disabled.disabledInfoMore}
+            disabled={props.disabled.more}
             onClick={props.increase}>More</button>
     </div>
 );

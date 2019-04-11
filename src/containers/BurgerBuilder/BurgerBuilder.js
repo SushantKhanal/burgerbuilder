@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
     cheese: 0.4,
@@ -19,6 +21,17 @@ class BurgerBuilder extends Component {
             meat: 0
         },
         totalPrice: 4,
+        purchaseable: false,
+        purchasing: false,
+    }
+
+    updatePurchasableState = () => {
+        const ingredients = {...this.state.ingredients};
+        const sumOfIngredients = Object.keys(ingredients).reduce((sum, el)=>{
+            return sum + ingredients[el];
+        },0);
+        if(this.state.purchaseable !== (sumOfIngredients > 0))
+            this.setState({purchaseable: sumOfIngredients > 0})
     }
 
     removeIngredientHandler = (ingredient) => {
@@ -45,20 +58,39 @@ class BurgerBuilder extends Component {
         })
     }
 
+    purchaseHandler = () => {
+       this.setState({purchasing: true})
+    }
+
+    closePurchaseModalHandler = () => {
+        this.setState({purchasing: false})
+    }
+
+    componentDidUpdate () {
+        this.updatePurchasableState();
+    }
+
     render() {
         const disabledInfo = {
-            disabledInfoLess:{...this.state.ingredients},
-            disabledInfoMore:{...this.state.ingredients}
+            lessButton:{...this.state.ingredients},
+            moreButton:{...this.state.ingredients}
         };
-        for(let key in disabledInfo.disabledInfoLess) {
-            disabledInfo.disabledInfoLess[key] = disabledInfo.disabledInfoLess[key] <= 0
-            disabledInfo.disabledInfoMore[key] = disabledInfo.disabledInfoMore[key] >= 4
+        const { lessButton, moreButton } = disabledInfo;
+        for(let key in lessButton) {
+            lessButton[key] = lessButton[key] <= 0
+            moreButton[key] = moreButton[key] >= 4
         }
         return (
             <Aux>
+                {this.state.purchasing &&
+                <Modal show={this.state.purchasing} closeModal={this.closePurchaseModalHandler}>
+                    <OrderSummary ingredients={this.state.ingredients}/>
+                </Modal>}    
                 <Burger ingredients={this.state.ingredients}/> 
                 <BuildControls
+                    ordered={this.purchaseHandler}
                     disabled={disabledInfo}
+                    purchaseable={this.state.purchaseable}
                     price={this.state.totalPrice}
                     decrease={this.removeIngredientHandler}
                     increase={this.addIngredientHandler}

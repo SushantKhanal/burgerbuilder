@@ -18,13 +18,16 @@ const buildControls = (props) => (
                 key={control.label + index}
                 label={control.label}
                 disabled={{
-                    disabledInfoLess: props.disabled.disabledInfoLess[control.type],
-                    disabledInfoMore: props.disabled.disabledInfoMore[control.type]
+                    less: props.disabled.lessButton[control.type],
+                    more: props.disabled.moreButton[control.type]
                 }}
                 decrease={() => props.decrease(control.type)}
                 increase={() => props.increase(control.type)}
             />
         )}
+        <button onClick={props.ordered}
+            className={classes.OrderButton} 
+            disabled={!props.purchaseable}>ORDER NOW</button>
     </div>
 );
 
