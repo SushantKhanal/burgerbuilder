@@ -8,29 +8,25 @@ class Layout extends Component {
 
     state = {
         revealSideDrawer: false,
-        revealBackdrop: false,
     }
 
     removeSideDrawerHandler = () => {
         this.setState({
             revealSideDrawer: false,
-            revealBackdrop : false,
         })
     }
 
-    revealSideDrawerHandler = () => {
-        this.setState({
-            revealSideDrawer: true,
-            revealBackdrop: true,
-        });
+    toggleSideDrawerHandler = () => {
+        this.setState((prevState, props) => (
+            {revealSideDrawer: !prevState.revealSideDrawer,}
+        ));
     }
 
     render () {
         return (
             <Aux>
-                <ToolBar revealSideDrawer={this.revealSideDrawerHandler}/>
-                <SideDrawer revealed={this.state.revealSideDrawer} 
-                    open={this.state.revealBackdrop} 
+                <ToolBar toggleSideDrawer={this.toggleSideDrawerHandler}/>
+                <SideDrawer revealed={this.state.revealSideDrawer}  
                     removeSideDrawer={this.removeSideDrawerHandler}/>
                 <main className={classes.Content}>
                     {this.props.children}
