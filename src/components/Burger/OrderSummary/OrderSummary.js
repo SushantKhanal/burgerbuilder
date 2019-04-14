@@ -10,6 +10,8 @@ class OrderSummary extends Component  {
     //     return shouldUpdateFlag;
     // }
 
+    //this component could be a functional component
+
     componentWillUpdate() {
         console.log("Order Summary will update!")
     }
