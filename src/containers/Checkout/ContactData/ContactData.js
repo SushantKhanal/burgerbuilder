@@ -86,9 +86,10 @@ class ContactData extends Component {
                     ],
                     placeholder: 'Delivery Method',
                 },
-                value: '',
-                touched: false,
+                value: 'fastest',
+                validation: {},
                 valid: true,
+                touched: false,
             },
         },
         formIsValid: false,
@@ -140,8 +141,7 @@ class ContactData extends Component {
         //since its the 'value' property we're going to update, it is enough
         //but were we to update anything inside the object of elementConfig we would mutate the original state
         updatedFormObject["value"] = event.target.value;
-        updatedFormObject.validation && (
-            updatedFormObject.valid = this.checkValidity(event.target.value, updatedFormObject.validation));
+        updatedFormObject.valid = this.checkValidity(event.target.value, updatedFormObject.validation);
         updatedFormObject.touched = true;
         updatedForm[inputIdentifier] = updatedFormObject;
         let formIsValid = true;
