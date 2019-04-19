@@ -16,6 +16,12 @@ class ContactData extends Component {
                     placeholder: 'Your Name',
                 },
                 value: '',
+                validation: {
+                    required: true,
+                    minLength: 3,
+                },
+                valid: false,
+                touched: false,
             },
             email: {
                 elementType: 'input',
@@ -24,6 +30,11 @@ class ContactData extends Component {
                     placeholder: 'Your Mail',
                 },
                 value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false,
             },
             street: {
                 elementType: 'input',
@@ -32,6 +43,11 @@ class ContactData extends Component {
                     placeholder: 'Your Street',
                 },
                 value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false,
             },
             zipCode: {
                 elementType: 'input',
@@ -40,6 +56,13 @@ class ContactData extends Component {
                     placeholder: 'ZipCode',
                 },
                 value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 5,
+                },
+                valid: false,
+                touched: false,
             },
             country: {
                 elementType: 'input',
@@ -48,6 +71,11 @@ class ContactData extends Component {
                     placeholder: 'Your Country',
                 },
                 value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false,
             },
             deliveryMethod : {
                 elementType: 'select',
@@ -59,16 +87,40 @@ class ContactData extends Component {
                     placeholder: 'Delivery Method',
                 },
                 value: '',
+                touched: false,
+                // validation: {
+                //     required: true,
+                // },
+                // valid: false,
             },
         },
         loading: false,
     }
 
+    checkValidity = (value, rules) => {
+        let isValid = true;
+        if(rules.required) {
+            isValid = isValid && (value.trim() !== '');
+        }
+        if(rules.minLength) {
+            isValid = isValid && (value.trim().length >= rules.minLength);
+        }
+        if(rules.maxLength) {
+            isValid = isValid && (value.trim().length <= rules.maxLength);
+        }
+        return isValid;
+    }
+
     orderHandler = (event) => {
         event.preventDefault();
+        let formData = {};
+        for(let key in this.state.orderForm) {
+            formData[key] = this.state.orderForm[key].value
+        }
         this.setState({loading: true});
         const order = {
             ingredients : {...this.props.ingredients},
+            orderData: formData,
             price : this.props.price,
         }
         axios.post('/orders.json', order)
@@ -90,6 +142,9 @@ class ContactData extends Component {
         //since its the 'value' property we're going to update, it is enough
         //but were we to update anything inside the object of elementConfig we would mutate the original state
         updatedFormObject["value"] = event.target.value;
+        updatedFormObject.valid = this.checkValidity(event.target.value, updatedFormObject.validation);
+        updatedFormObject.touched = true;
+        console.log(updatedFormObject.valid);
         this.setState({orderForm: 
             {
                 ...updatedForm,
@@ -106,17 +161,20 @@ class ContactData extends Component {
             this.state.loading ? <Spinner/> : 
             <div className={classes.ContactData}>
                 <h4>Enter your contact data!</h4>
-                <form>
+                <form onSubmit={this.orderHandler}>
                     {formElementArray.map(
                         elem=><Input 
                                 key = {elem.id} 
                                 elementType={elem.config.elementType} 
                                 elementConfig={elem.config.elementConfig} 
                                 value={elem.config.value}
+                                valid={elem.config.valid}
+                                shouldValidate={elem.config.validation}
+                                touched={elem.config.touched}
                                 changed={(event)=>this.inputChangedHandler(event, elem.id)}
                               />
                     )}
-                    <Button clicked={this.orderHandler} btnType="Success">ORDER</Button>
+                    <Button btnType="Success">ORDER</Button>
                 </form>
             </div>
         )

@@ -18,10 +18,15 @@
     padding: 6px 10px;
     display: block;
     width: 100%;
-    box-sizing: border-box;
+    box-sizing: border-box; 
 }
 
 .InputElement:focus {
     outline: none;
     background-color: #ccc;
+}
+
+.Invalid {
+    background-color: salmon;
+    border: 1px solid red;
 }
