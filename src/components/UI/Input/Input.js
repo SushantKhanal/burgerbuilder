@@ -27,7 +27,7 @@ const input = (props) => {
                                 className={inputClasses.join(' ')} 
                                 value={props.value}
                                 onChange={props.changed}>
-                                    <option value="" disabled>{props.elementConfig.placeholder}</option>
+                                    {/* <option value="" disabled>{props.elementConfig.placeholder}</option> */}
                                     {props.elementConfig.options.map(
                                         option=><option key={option.value} value={option.value}>{option.displayValue}</option>)}
                             </select>;

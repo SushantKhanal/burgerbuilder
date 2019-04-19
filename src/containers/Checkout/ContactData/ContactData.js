@@ -88,12 +88,10 @@ class ContactData extends Component {
                 },
                 value: '',
                 touched: false,
-                // validation: {
-                //     required: true,
-                // },
-                // valid: false,
+                valid: true,
             },
         },
+        formIsValid: false,
         loading: false,
     }
 
@@ -142,15 +140,27 @@ class ContactData extends Component {
         //since its the 'value' property we're going to update, it is enough
         //but were we to update anything inside the object of elementConfig we would mutate the original state
         updatedFormObject["value"] = event.target.value;
-        updatedFormObject.valid = this.checkValidity(event.target.value, updatedFormObject.validation);
+        updatedFormObject.validation && (
+            updatedFormObject.valid = this.checkValidity(event.target.value, updatedFormObject.validation));
         updatedFormObject.touched = true;
-        console.log(updatedFormObject.valid);
-        this.setState({orderForm: 
-            {
-                ...updatedForm,
-                [inputIdentifier] : updatedFormObject,
+        updatedForm[inputIdentifier] = updatedFormObject;
+        let formIsValid = true;
+        for(const key in updatedForm) {
+            formIsValid = formIsValid && updatedForm[key].valid;
+            if(!formIsValid){
+                break;
             }
-        });
+        }
+        this.setState(
+            {
+                orderForm: {
+                            ...updatedForm,
+                            [inputIdentifier] : updatedFormObject,
+                           },
+                formIsValid,
+        
+            }
+        );
     }
 
     render () {
@@ -174,7 +184,7 @@ class ContactData extends Component {
                                 changed={(event)=>this.inputChangedHandler(event, elem.id)}
                               />
                     )}
-                    <Button btnType="Success">ORDER</Button>
+                    <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
                 </form>
             </div>
         )
