@@ -1,3 +1,5 @@
+import * as actionTypes from './actions';
+
 const initialState = {
     ingredients: null,
     price: 4,
@@ -12,12 +14,13 @@ const INGREDIENT_PRICES = {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case 'STORE_INGREDIENTS':
+        case actionTypes.STORE_INGREDIENTS:
             return {
                 ...state,
-                ingredients: action.ingredients
+                ingredients: action.ingredients,
+                price: 4,
             }
-        case 'ADD_INGREDIENT':
+        case actionTypes.ADD_INGREDIENT:
             if(state.ingredients[action.ingredient] >= 4){
                 return state;
             }
@@ -30,7 +33,7 @@ const reducer = (state = initialState, action) => {
                         [action.ingredient]: state.ingredients[action.ingredient] + 1
                     }
             }
-        case 'REMOVE_INGREDIENT':
+        case actionTypes.REMOVE_INGREDIENT:
             if(state.ingredients[action.ingredient] < 1){
                 return state;
             }

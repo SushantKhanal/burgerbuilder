@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actionTypes from '../../reducers/actions';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
@@ -28,7 +29,6 @@ class BurgerBuilder extends Component {
     componentDidMount () {
         axios.get('https://burgerbuilder-6e86d.firebaseio.com/ingredients.json')
             .then(response => {
-                // this.setState({ingredients: response.data})
                 this.props.storeIngredients(response.data)
             })
             .catch(error => {
@@ -62,15 +62,15 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        const queryArray = [];
-        for(let key in this.props.ingredients) {
-            queryArray.push(encodeURIComponent(key) + '=' + encodeURIComponent(this.props.ingredients[key]))
-        }
-        queryArray.push('price='+this.props.totalPrice);
-        const queryString = queryArray.join('&');
+        // const queryArray = [];
+        // for(let key in this.props.ingredients) {
+        //     queryArray.push(encodeURIComponent(key) + '=' + encodeURIComponent(this.props.ingredients[key]))
+        // }
+        // queryArray.push('price='+this.props.totalPrice);
+        // const queryString = queryArray.join('&');
         this.props.history.push({
             pathname: '/checkout',
-            search : '?' + queryString,
+            // search : '?' + queryString,
         });
 
     }
@@ -139,15 +139,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     storeIngredients : (ingredients) => dispatch({
-        type: 'STORE_INGREDIENTS',
+        type: actionTypes.STORE_INGREDIENTS,
         ingredients, 
     }),
     addIngredient : (ingredient) => dispatch({
-        type: 'ADD_INGREDIENT',
+        type: actionTypes.ADD_INGREDIENT,
         ingredient,
     }),
     removeIngredient : (ingredient) => dispatch({
-        type: 'REMOVE_INGREDIENT',
+        type: actionTypes.REMOVE_INGREDIENT,
         ingredient,
     })
 })
