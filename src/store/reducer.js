@@ -3,6 +3,7 @@ import * as actionTypes from './actions';
 const initialState = {
     ingredients: null,
     price: 4,
+    orders: [],
 }
 
 const INGREDIENT_PRICES = {
@@ -40,6 +41,16 @@ const reducer = (state = initialState, action) => {
                         [action.ingredient]: state.ingredients[action.ingredient] - 1
                     }
             }
+        case actionTypes.STORE_ORDERS:
+            return {
+                ...state,
+                    orders: action.orders,
+            }
+        case actionTypes.ADD_ORDER:
+            return {
+                ...state,
+                    orders: state.orders.concat([action.oreder])
+            }        
         default:
             return state;          
     }

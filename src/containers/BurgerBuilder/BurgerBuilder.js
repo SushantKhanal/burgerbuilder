@@ -20,7 +20,10 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount () {
+        // this.setState({loading: true});
         this.props.onFetchAndStoreIngredients();
+        // this.setState({loading: false});
+
     }
 
     updatePurchasableState = () => {
