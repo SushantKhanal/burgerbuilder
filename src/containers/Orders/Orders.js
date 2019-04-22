@@ -18,7 +18,7 @@ class Orders extends Component {
 
     render () {
         const orders = this.props.orders ? this.props.orders.map((order,index)=>
-            <Order key={order.id} ingredients={order.ingredients} price={order.price}/>
+            <Order key={order.id + index} ingredients={order.ingredients} price={order.price}/>
         ) : null;
         return (
             <div>

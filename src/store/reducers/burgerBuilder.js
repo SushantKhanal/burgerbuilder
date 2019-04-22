@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions';  //same as './actions/index
+import * as utils from '../utility';
 
 const initialState = {
     ingredients: null,
@@ -15,52 +16,49 @@ const INGREDIENT_PRICES = {
 }
 
 const burgerBuilder = (state = initialState, action) => {
+
     switch(action.type) {
+
         case actionTypes.STORE_INGREDIENTS:
-            return {
-                ...state,
-                ingredients: action.ingredients,
-                price: 4,
-                error: false,
-            }
+            return utils.updateObject(state, {ingredients: action.ingredients, price: 4, error: false})
+
         case actionTypes.ADD_INGREDIENT:
-            const priceAddition = INGREDIENT_PRICES[action.ingredient];
-            return {
-                ...state,
-                    price: state.price + priceAddition,
-                    ingredients: {
-                        ...state.ingredients,
-                        [action.ingredient]: state.ingredients[action.ingredient] + 1
-                    }
-            }
+            return addIngredient(state, action)
+
         case actionTypes.REMOVE_INGREDIENT:
-            const priceSubtraction = INGREDIENT_PRICES[action.ingredient];
-            return {
-                ...state,
-                    price: state.price - priceSubtraction,
-                    ingredients: {
-                        ...state.ingredients,
-                        [action.ingredient]: state.ingredients[action.ingredient] - 1
-                    }
-            }
+            return removeIngredient(state, action)
+
         case actionTypes.FETCH_INGREDIENTS_FAILED: 
-            return {
-                ...state,
-                    error: true,
-            }
+            return utils.updateObject(state, {error: true})
+
         case actionTypes.INGREDIENTS_LOADING_TRUE:
-            return {
-                ...state,
-                    loading: true,
-            }
+            return utils.updateObject(state, {loading: true})
+
         case actionTypes.INGREDIENTS_LOADING_FALSE:
-            return {
-                ...state,
-                    loading: false,
-            }                  
+            return utils.updateObject(state, {loading: false})
+
         default:
             return state;          
     }
+
+}
+
+const addIngredient = (state, action) => {
+    const ingredientAfterAddition = {[action.ingredient]: state.ingredients[action.ingredient] + 1};
+    const ingredientsAfterAddition = utils.updateObject(state.ingredients, ingredientAfterAddition);
+    return utils.updateObject(state, {
+                price: state.price + INGREDIENT_PRICES[action.ingredient],
+                ingredients: ingredientsAfterAddition
+            })
+}
+
+const removeIngredient = (state, action) => {
+    const ingredientAfterRemoval = {[action.ingredient]: state.ingredients[action.ingredient] - 1};
+    const ingredientsAfterRemoval = utils.updateObject(state.ingredients, ingredientAfterRemoval);
+    return utils.updateObject(state, {
+                price: state.price - INGREDIENT_PRICES[action.ingredient],
+                ingredients: ingredientsAfterRemoval
+            })
 }
 
 export default burgerBuilder;
