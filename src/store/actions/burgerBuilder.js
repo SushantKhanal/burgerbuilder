@@ -22,7 +22,8 @@ export const onFetchIngredientsFailed = () => (
 
 export const onFetchIngredients = () => {
     return dispatch => {
-        axios.get('https://burgerbuilder-6e86d.firebaseio.com/ingredients.json')
+        dispatch(onIngredientsLoading());
+        axios.get('/ingredients.json')
             .then(response => {
                 dispatch(onIngredientsLoaded());
                 dispatch(onStoreIngredients(response.data));

@@ -4,6 +4,7 @@ const initialState = {
     orders: [],
     loading: false,
     error: false,
+    purchased: false,
 }
 
 const orders = (state = initialState, action) => {
@@ -12,11 +13,13 @@ const orders = (state = initialState, action) => {
             return {
                 ...state,
                     orders: action.orders,
+                    error: false,
             }
-        case actionTypes.ADD_ORDER:
+        case actionTypes.POST_ORDER_SUCCESS:
             return {
                 ...state,
-                    orders: state.orders.concat(action.order)
+                    orders: state.orders.concat(action.order),
+                    purchased: true,
             }        
         case actionTypes.FETCH_ORDERS_FAILED:
             return {
@@ -32,7 +35,12 @@ const orders = (state = initialState, action) => {
             return {
                 ...state,
                     loading: false,
-            }     
+            }   
+        case actionTypes.PURCHASING_INIT:
+            return {
+                ...state,
+                    purchased: false,
+            }      
         default:
             return state;          
     }

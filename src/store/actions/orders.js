@@ -1,12 +1,18 @@
 import axios from '../../axios-orders';
 
-
 export const STORE_ORDERS = 'STORE_ORDERS';
 export const ADD_ORDER = 'ADD_ORDER';
 export const FETCH_ORDERS_FAILED = 'FETCH_ORDERS_FAILED';
 export const ORDERS_LOADING_TRUE = 'ORDERS_LOADING_TRUE';
 export const ORDERS_LOADING_FALSE = 'ORDERS_LOADING_FALSE';
+export const PURCHASING_INIT = 'PURCHASING_INIT';
+export const POST_ORDER_SUCCESS = 'POST_ORDER_SUCCESS';
 
+export const onPurchasingInit = () => (
+    {
+        type: PURCHASING_INIT,
+    }
+)
 
 export const onStoreOrders = (orders) => (
     {
@@ -15,8 +21,9 @@ export const onStoreOrders = (orders) => (
     }
 )
 
-export const onFetchOrders = dispatch => {
+export const onFetchOrders = () => {
     return dispatch => {
+        dispatch(onOrdersLoading());
         axios.get('/orders.json')
             .then(response => {
                 dispatch(onOrdersLoaded());
@@ -51,18 +58,11 @@ export const onFetchOrdersFailed = () => (
     }
 )
 
-export const onAddOrder = order => (
-    {
-        type: ADD_ORDER,
-        order,
-    }
-)
-
 export const onPostOrder = (order) => {
     return dispatch => {
         axios.post('/orders.json', order)
             .then(response => {
-                dispatch(onAddOrder(order));
+                dispatch(onPostOrderSuccess(order));
             })
             .catch(error => {
                 debugger;
@@ -71,6 +71,15 @@ export const onPostOrder = (order) => {
     }
 
 }
+
+export const onPostOrderSuccess = (order) => (
+    {
+        type: POST_ORDER_SUCCESS,
+        order,
+    }
+)
+
+
 
 
 

@@ -18,8 +18,11 @@ class BurgerBuilder extends Component {
         error: false,
     }
 
+    componentWillMount() {
+        this.props.onPurchasingInit();
+    }
+
     componentDidMount () {
-        this.props.onIngredientsLoading();
         this.props.onFetchAndStoreIngredients()
     }
 
@@ -130,7 +133,7 @@ const mapDispatchToProps = (dispatch) => ({
     onIngredientAdded : (ingredient) => dispatch(actionCreators.onAddIngredient(ingredient)),
     onIngredientRemoved : (ingredient) => dispatch(actionCreators.onRemoveIngredient(ingredient)),
     onFetchAndStoreIngredients : () => dispatch(actionCreators.onFetchIngredients()),
-    onIngredientsLoading : () => dispatch(actionCreators.onIngredientsLoading()),
+    onPurchasingInit: () => dispatch(actionCreators.onPurchasingInit()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));

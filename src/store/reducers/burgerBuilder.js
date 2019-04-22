@@ -21,6 +21,7 @@ const burgerBuilder = (state = initialState, action) => {
                 ...state,
                 ingredients: action.ingredients,
                 price: 4,
+                error: false,
             }
         case actionTypes.ADD_INGREDIENT:
             const priceAddition = INGREDIENT_PRICES[action.ingredient];

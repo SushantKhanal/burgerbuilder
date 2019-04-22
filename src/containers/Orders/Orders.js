@@ -13,7 +13,6 @@ class Orders extends Component {
     }
 
     componentDidMount () {
-        this.props.onOrdersLoading();
         this.props.onFetchOrders();
     }
 
@@ -35,7 +34,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
     onFetchOrders: () => dispatch(actionCreators.onFetchOrders()),
-    onOrdersLoading: () => dispatch(actionCreators.onOrdersLoading()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));

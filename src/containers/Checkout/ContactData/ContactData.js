@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Button from '../../../components/UI/Button/Button';
 import Input from '../../../components/UI/Input/Input';
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import classes from './ContactData.module.css';
 import axios from '../../../axios-orders';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actionCreators from '../../../store/actions';
 
 class ContactData extends Component {
@@ -163,6 +165,9 @@ class ContactData extends Component {
         const formElementArray = Object.keys(this.state.orderForm).map(
             key=> ({id: key, config: this.state.orderForm[key]})
             );
+        if(this.props.purchased) {
+            this.props.history.replace('/');
+        }    
         return (
             this.state.loading ? <Spinner/> : 
             <div className={classes.ContactData}>
@@ -190,10 +195,11 @@ class ContactData extends Component {
 const mapStateToProps = (state) => ({
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.price,
+    purchased: state.orders.purchased,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    onPostOrder: order => dispatch(actionCreators.onPostOrder(order))
+    onPostOrder: order => dispatch(actionCreators.onPostOrder(order)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactData);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(withRouter(ContactData),axios));
