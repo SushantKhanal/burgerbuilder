@@ -3,6 +3,8 @@ import * as actionTypes from '../actions';  //same as './actions/index
 const initialState = {
     ingredients: null,
     price: 4,
+    loading: false,
+    error: false,
 }
 
 const INGREDIENT_PRICES = {
@@ -39,7 +41,22 @@ const burgerBuilder = (state = initialState, action) => {
                         ...state.ingredients,
                         [action.ingredient]: state.ingredients[action.ingredient] - 1
                     }
-            }      
+            }
+        case actionTypes.FETCH_INGREDIENTS_FAILED: 
+            return {
+                ...state,
+                    error: true,
+            }
+        case actionTypes.SET_LOADING_TRUE:
+            return {
+                ...state,
+                    loading: true,
+            }
+        case actionTypes.SET_LOADING_FALSE:
+            return {
+                ...state,
+                    loading: false,
+            }                  
         default:
             return state;          
     }

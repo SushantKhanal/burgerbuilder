@@ -3,6 +3,9 @@ import axios from '../../axios-orders';
 export const STORE_INGREDIENTS = 'STORE_INGREDIENTS';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
+export const FETCH_INGREDIENTS_FAILED = 'FETCH_INGREDIENTS_FAILED';
+export const SET_LOADING_TRUE = 'SET_LOADING_TRUE';
+export const SET_LOADING_FALSE = 'SET_LOADING_FALSE';
 
 export const onStoreIngredients = (ingredients) => (
     {
@@ -11,14 +14,22 @@ export const onStoreIngredients = (ingredients) => (
     }
 )
 
+export const onFetchIngredientsFailed = () => (
+    {
+        type: FETCH_INGREDIENTS_FAILED,
+    }
+)
+
 export const onFetchIngredients = () => {
     return dispatch => {
         axios.get('https://burgerbuilder-6e86d.firebaseio.com/ingredients.json')
             .then(response => {
+                dispatch(setLoaded());
                 dispatch(onStoreIngredients(response.data));
             })
             .catch(error => {
-                
+                dispatch(setLoaded());
+                dispatch(onFetchIngredientsFailed());
             })
     }
 }
@@ -34,5 +45,17 @@ export const onRemoveIngredient = (ingredient) => (
     {
         type: REMOVE_INGREDIENT,
         ingredient,
+    }
+)
+
+export const setLoading = () => (
+    {
+        type: SET_LOADING_TRUE,
+    }
+)
+
+export const setLoaded = () => (
+    {
+        type: SET_LOADING_FALSE,
     }
 )

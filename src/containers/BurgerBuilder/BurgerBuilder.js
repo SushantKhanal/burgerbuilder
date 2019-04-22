@@ -20,10 +20,8 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount () {
-        // this.setState({loading: true});
+        this.props.setLoading();
         this.props.onFetchAndStoreIngredients()
-        // this.setState({loading: false});
-
     }
 
     updatePurchasableState = () => {
@@ -80,7 +78,7 @@ class BurgerBuilder extends Component {
         }
         let orderSummary =  null;
 
-        let burger = this.state.error ? <p>Sorry, ingredients can't be loaded!</p> : <Spinner />    
+        let burger = this.props.error ? <p>Sorry, ingredients can't be loaded!</p> : <Spinner />    
 
         if(this.props.ingredients) {
             burger = 
@@ -104,7 +102,7 @@ class BurgerBuilder extends Component {
                     purchaseContinue={this.purchaseContinueHandler}/>        
         }   
 
-        if(this.state.loading) {
+        if(this.props.loading) {
             orderSummary = <Spinner/>
         }
 
@@ -120,9 +118,12 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => {
+    let { ingredients, price, loading ,error } = state.burgerBuilder;
     return {
-        ingredients: state.burgerBuilder.ingredients,
-        totalPrice: state.burgerBuilder.price,
+        ingredients,
+        totalPrice: price,
+        loading,
+        error,
     }
 }
 
@@ -130,6 +131,7 @@ const mapDispatchToProps = (dispatch) => ({
     onIngredientAdded : (ingredient) => dispatch(actionCreators.onAddIngredient(ingredient)),
     onIngredientRemoved : (ingredient) => dispatch(actionCreators.onRemoveIngredient(ingredient)),
     onFetchAndStoreIngredients : () => dispatch(actionCreators.onFetchIngredients()),
+    setLoading : () => dispatch(actionCreators.setLoading()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
