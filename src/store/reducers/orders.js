@@ -11,29 +11,39 @@ const initialState = {
 const orders = (state = initialState, action) => {
 
     switch(action.type) {
-    
-        case actionTypes.STORE_ORDERS:
-            return utils.updateObject(state, {orders: action.orders, error: false});
-
-        case actionTypes.POST_ORDER_SUCCESS:
-            return utils.updateObject(state, {orders: state.orders.concat(action.order), purchased: true})
-            
-        case actionTypes.FETCH_ORDERS_FAILED:
-            return utils.updateObject(state, {error: true})
-
-        case actionTypes.ORDERS_LOADING_TRUE:
-            return utils.updateObject(state, {loading: true})
- 
-        case actionTypes.ORDERS_LOADING_FALSE:
-            return utils.updateObject(state, {loading: false})
-  
-        case actionTypes.PURCHASING_INIT:
-            return utils.updateObject(state, {purchased: false})
-    
-        default:
-            return state;          
+        case actionTypes.STORE_ORDERS: return storeIngredients(state, action)
+        case actionTypes.POST_ORDER_SUCCESS: return registerOrderPosted(state, action)
+        case actionTypes.FETCH_ORDERS_FAILED: return fetchOrdersFailed(state, action)
+        case actionTypes.ORDERS_LOADING_TRUE: return setOrdersLoading(state, action)
+        case actionTypes.ORDERS_LOADING_FALSE: return setOrdersLoaded(state, action)
+        case actionTypes.PURCHASING_INIT: return purchaseBurgerStart(state, action)
+        default: return state;  
     }
 
 }
+
+const purchaseBurgerStart = (state, action) => (
+    utils.updateObject(state, {purchased: false})
+)
+
+const setOrdersLoading = (state, action) => (
+    utils.updateObject(state, {loading: true})
+)
+
+const setOrdersLoaded = (state, action) => (
+    utils.updateObject(state, {loading: false})
+)
+
+const fetchOrdersFailed = (state, action) => (
+    utils.updateObject(state, {error: true})
+)
+
+const storeIngredients = (state, action) => (
+    utils.updateObject(state, {orders: action.orders, error: false})
+)
+
+const registerOrderPosted = (state, action) => (
+    utils.updateObject(state, {orders: state.orders.concat(action.order), purchased: true})
+) 
 
 export default orders;
