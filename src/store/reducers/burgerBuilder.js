@@ -47,12 +47,12 @@ const burgerBuilder = (state = initialState, action) => {
                 ...state,
                     error: true,
             }
-        case actionTypes.SET_LOADING_TRUE:
+        case actionTypes.INGREDIENTS_LOADING_TRUE:
             return {
                 ...state,
                     loading: true,
             }
-        case actionTypes.SET_LOADING_FALSE:
+        case actionTypes.INGREDIENTS_LOADING_FALSE:
             return {
                 ...state,
                     loading: false,

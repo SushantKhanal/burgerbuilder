@@ -4,8 +4,8 @@ export const STORE_INGREDIENTS = 'STORE_INGREDIENTS';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
 export const FETCH_INGREDIENTS_FAILED = 'FETCH_INGREDIENTS_FAILED';
-export const SET_LOADING_TRUE = 'SET_LOADING_TRUE';
-export const SET_LOADING_FALSE = 'SET_LOADING_FALSE';
+export const INGREDIENTS_LOADING_TRUE = 'INGREDIENTS_LOADING_TRUE';
+export const INGREDIENTS_LOADING_FALSE = 'INGREDIENTS_LOADING_FALSE';
 
 export const onStoreIngredients = (ingredients) => (
     {
@@ -50,12 +50,12 @@ export const onRemoveIngredient = (ingredient) => (
 
 export const setLoading = () => (
     {
-        type: SET_LOADING_TRUE,
+        type: INGREDIENTS_LOADING_TRUE,
     }
 )
 
 export const setLoaded = () => (
     {
-        type: SET_LOADING_FALSE,
+        type: INGREDIENTS_LOADING_FALSE,
     }
 )
