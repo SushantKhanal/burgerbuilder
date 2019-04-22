@@ -19,7 +19,7 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount () {
-        this.props.setLoading();
+        this.props.onIngredientsLoading();
         this.props.onFetchAndStoreIngredients()
     }
 
@@ -130,7 +130,7 @@ const mapDispatchToProps = (dispatch) => ({
     onIngredientAdded : (ingredient) => dispatch(actionCreators.onAddIngredient(ingredient)),
     onIngredientRemoved : (ingredient) => dispatch(actionCreators.onRemoveIngredient(ingredient)),
     onFetchAndStoreIngredients : () => dispatch(actionCreators.onFetchIngredients()),
-    setLoading : () => dispatch(actionCreators.setLoading()),
+    onIngredientsLoading : () => dispatch(actionCreators.onIngredientsLoading()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));

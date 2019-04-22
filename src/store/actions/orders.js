@@ -17,7 +17,7 @@ export const onStoreOrders = (orders) => (
 
 export const onFetchOrders = dispatch => {
     return dispatch => {
-        axios.get('/orders.jso')
+        axios.get('/orders.json')
             .then(response => {
                 dispatch(onOrdersLoaded());
                 const orders = Object.keys(response.data).map(responseKey => ({
