@@ -21,9 +21,6 @@ const reducer = (state = initialState, action) => {
                 price: 4,
             }
         case actionTypes.ADD_INGREDIENT:
-            if(state.ingredients[action.ingredient] >= 4){
-                return state;
-            }
             const priceAddition = INGREDIENT_PRICES[action.ingredient];
             return {
                 ...state,
@@ -34,9 +31,6 @@ const reducer = (state = initialState, action) => {
                     }
             }
         case actionTypes.REMOVE_INGREDIENT:
-            if(state.ingredients[action.ingredient] < 1){
-                return state;
-            }
             const priceSubtraction = INGREDIENT_PRICES[action.ingredient];
             return {
                 ...state,
@@ -45,9 +39,10 @@ const reducer = (state = initialState, action) => {
                         ...state.ingredients,
                         [action.ingredient]: state.ingredients[action.ingredient] - 1
                     }
-            }        
+            }
+        default:
+            return state;          
     }
-    return state;
 }
 
 export default reducer;
