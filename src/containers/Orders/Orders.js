@@ -32,7 +32,7 @@ class Orders extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    orders: state.orders,
+    orders: state.orders.orders,
 })
 
 const mapDispatchToProps = dispatch => ({

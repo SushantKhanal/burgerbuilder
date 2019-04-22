@@ -1,9 +1,8 @@
-import * as actionTypes from './actions';  //same as './actions/index
+import * as actionTypes from '../actions';  //same as './actions/index
 
 const initialState = {
     ingredients: null,
     price: 4,
-    orders: [],
 }
 
 const INGREDIENT_PRICES = {
@@ -13,7 +12,7 @@ const INGREDIENT_PRICES = {
     meat: 0.7,
 }
 
-const reducer = (state = initialState, action) => {
+const burgerBuilder = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.STORE_INGREDIENTS:
             return {
@@ -40,20 +39,10 @@ const reducer = (state = initialState, action) => {
                         ...state.ingredients,
                         [action.ingredient]: state.ingredients[action.ingredient] - 1
                     }
-            }
-        case actionTypes.STORE_ORDERS:
-            return {
-                ...state,
-                    orders: action.orders,
-            }
-        case actionTypes.ADD_ORDER:
-            return {
-                ...state,
-                    orders: state.orders.concat([action.oreder])
-            }        
+            }      
         default:
             return state;          
     }
 }
 
-export default reducer;
+export default burgerBuilder;
