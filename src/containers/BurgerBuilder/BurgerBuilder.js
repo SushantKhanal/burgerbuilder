@@ -21,7 +21,7 @@ class BurgerBuilder extends Component {
 
     componentDidMount () {
         // this.setState({loading: true});
-        this.props.onFetchAndStoreIngredients();
+        this.props.onFetchAndStoreIngredients()
         // this.setState({loading: false});
 
     }
@@ -127,7 +127,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    onIngredientsStored : (ingredients) => dispatch(actionCreators.onStoreIngredients(ingredients)),
     onIngredientAdded : (ingredient) => dispatch(actionCreators.onAddIngredient(ingredient)),
     onIngredientRemoved : (ingredient) => dispatch(actionCreators.onRemoveIngredient(ingredient)),
     onFetchAndStoreIngredients : () => dispatch(actionCreators.onFetchIngredients()),
