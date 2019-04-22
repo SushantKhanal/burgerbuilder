@@ -28,19 +28,26 @@ const burgerBuilder = (state = initialState, action) => {
     }
 
 }
-const setIngredientsLoading = () => (utils.updateObject(state, {loading: true}));
 
-const setIngredientsLoaded = () => (utils.updateObject(state, {loading: false}));
+const setIngredientsLoading = (state, action) => (
+    utils.updateObject(state, {loading: true})
+)
 
-const fetchIngredientsFailed = (state, action) => (utils.updateObject(state, {error: true}))
+const setIngredientsLoaded = (state, action) => (
+    utils.updateObject(state, {loading: false})
+)
+
+const fetchIngredientsFailed = (state, action) => (
+    utils.updateObject(state, {error: true})
+)
 
 const storeIngredients = (state, action) => (
     utils.updateObject(state, {ingredients: action.ingredients, price: 4, error: false})
 )
 
 const addIngredient = (state, action) => {
-    const ingredientAfterAddition = {[action.ingredient]: state.ingredients[action.ingredient] + 1};
-    const ingredientsAfterAddition = utils.updateObject(state.ingredients, ingredientAfterAddition);
+    const ingredientAfterAddition = {[action.ingredient]: state.ingredients[action.ingredient] + 1}
+    const ingredientsAfterAddition = utils.updateObject(state.ingredients, ingredientAfterAddition)
     return utils.updateObject(state, {
                 price: state.price + INGREDIENT_PRICES[action.ingredient],
                 ingredients: ingredientsAfterAddition
@@ -48,8 +55,8 @@ const addIngredient = (state, action) => {
 }
 
 const removeIngredient = (state, action) => {
-    const ingredientAfterRemoval = {[action.ingredient]: state.ingredients[action.ingredient] - 1};
-    const ingredientsAfterRemoval = utils.updateObject(state.ingredients, ingredientAfterRemoval);
+    const ingredientAfterRemoval = {[action.ingredient]: state.ingredients[action.ingredient] - 1}
+    const ingredientsAfterRemoval = utils.updateObject(state.ingredients, ingredientAfterRemoval)
     return utils.updateObject(state, {
                 price: state.price - INGREDIENT_PRICES[action.ingredient],
                 ingredients: ingredientsAfterRemoval

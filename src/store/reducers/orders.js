@@ -9,7 +9,6 @@ const initialState = {
 }
 
 const orders = (state = initialState, action) => {
-
     switch(action.type) {
         case actionTypes.STORE_ORDERS: return storeIngredients(state, action)
         case actionTypes.POST_ORDER_SUCCESS: return registerOrderPosted(state, action)
@@ -19,7 +18,6 @@ const orders = (state = initialState, action) => {
         case actionTypes.PURCHASING_INIT: return purchaseBurgerStart(state, action)
         default: return state;  
     }
-
 }
 
 const purchaseBurgerStart = (state, action) => (
