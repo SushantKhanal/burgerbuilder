@@ -21,10 +21,10 @@ export const onStoreOrders = (orders) => (
     }
 )
 
-export const onFetchOrders = () => {
+export const onFetchOrders = (token) => {
     return dispatch => {
         dispatch(onOrdersLoading());
-        axios.get('/orders.json')
+        axios.get('/orders.json?auth='+token)
             .then(response => {
                 dispatch(onOrdersLoaded());
                 const orders = Object.keys(response.data).map(responseKey => ({
@@ -58,9 +58,9 @@ export const onFetchOrdersFailed = () => (
     }
 )
 
-export const onPostOrder = (order) => {
+export const onPurchaseBurger = (order, token) => {
     return dispatch => {
-        axios.post('/orders.json', order)
+        axios.post('/orders.json?auth='+token, order)
             .then(response => {
                 dispatch(onPostOrderSuccess(order));
             })
