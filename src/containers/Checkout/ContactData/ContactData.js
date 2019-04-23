@@ -36,6 +36,7 @@ class ContactData extends Component {
                 value: '',
                 validation: {
                     required: true,
+                    isEmail: true,
                 },
                 valid: false,
                 touched: false,
@@ -64,6 +65,7 @@ class ContactData extends Component {
                     required: true,
                     minLength: 5,
                     maxLength: 5,
+                    isNumeric: true,
                 },
                 valid: false,
                 touched: false,
@@ -110,6 +112,14 @@ class ContactData extends Component {
         }
         if(rules.maxLength) {
             isValid = isValid && (value.trim().length <= rules.maxLength);
+        }
+        if (rules.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
+        }
+        if (rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
         }
         return isValid;
     }
@@ -166,7 +176,7 @@ class ContactData extends Component {
             key=> ({id: key, config: this.state.orderForm[key]})
             );
         if(this.props.purchased) {
-            this.props.history.replace('/');
+            this.props.history.replace('/burgerbuilder');
         }    
         return (
             this.state.loading ? <Spinner/> : 
@@ -182,7 +192,7 @@ class ContactData extends Component {
                                 valid={elem.config.valid}
                                 shouldValidate={elem.config.validation}
                                 touched={elem.config.touched}
-                                changed={(event)=>this.inputChangedHandler(event, elem.id)}
+                                changed={(event)=>this.inputChangedHandler(event, elem.id)} 
                               />
                     )}
                     <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
