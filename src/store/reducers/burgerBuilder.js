@@ -18,31 +18,26 @@ const INGREDIENT_PRICES = {
 const burgerBuilder = (state = initialState, action) => {
 
     switch(action.type) {
-        case actionTypes.STORE_INGREDIENTS: return storeIngredients(state, action)
+        case actionTypes.FETCH_INGREDIENTS_SUCCESS: return fetchIngredientsSuccess(state, action)
         case actionTypes.ADD_INGREDIENT: return addIngredient(state, action)
         case actionTypes.REMOVE_INGREDIENT: return removeIngredient(state, action)
-        case actionTypes.FETCH_INGREDIENTS_FAILED: return fetchIngredientsFailed(state, action)
-        case actionTypes.INGREDIENTS_LOADING_TRUE: return setIngredientsLoading(state, action)
-        case actionTypes.INGREDIENTS_LOADING_FALSE: return setIngredientsLoaded(state, action)
+        case actionTypes.FETCH_INGREDIENTS_FAILURE: return fetchIngredientsFailed(state, action)
+        case actionTypes.FETCH_INGREDIENTS_START: return fetchIngredientsStart(state, action)
         default: return state;          
     }
 
 }
 
-const setIngredientsLoading = (state, action) => (
+const fetchIngredientsStart = (state, action) => (
     utils.updateObject(state, {loading: true})
 )
 
-const setIngredientsLoaded = (state, action) => (
-    utils.updateObject(state, {loading: false})
-)
-
 const fetchIngredientsFailed = (state, action) => (
-    utils.updateObject(state, {error: true})
+    utils.updateObject(state, {error: true, loading: false})
 )
 
-const storeIngredients = (state, action) => (
-    utils.updateObject(state, {ingredients: action.ingredients, price: 4, error: false})
+const fetchIngredientsSuccess = (state, action) => (
+    utils.updateObject(state, {ingredients: action.ingredients, price: 4, error: false, loading: false})
 )
 
 const addIngredient = (state, action) => {

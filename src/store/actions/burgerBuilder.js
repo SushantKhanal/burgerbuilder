@@ -1,35 +1,36 @@
 import axios from '../../axios-orders';
 
-export const STORE_INGREDIENTS = 'STORE_INGREDIENTS';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
-export const FETCH_INGREDIENTS_FAILED = 'FETCH_INGREDIENTS_FAILED';
-export const INGREDIENTS_LOADING_TRUE = 'INGREDIENTS_LOADING_TRUE';
-export const INGREDIENTS_LOADING_FALSE = 'INGREDIENTS_LOADING_FALSE';
 
-export const onStoreIngredients = (ingredients) => (
+export const FETCH_INGREDIENTS_START = 'FETCH_INGREDIENTS_START';
+export const FETCH_INGREDIENTS_FAILURE = 'FETCH_INGREDIENTS_FAILURE';
+export const FETCH_INGREDIENTS_SUCCESS = 'FETCH_INGREDIENTS_SUCCESS';
+
+
+export const fetchIngredientsSuccess = (ingredients) => (
     {
-        type: STORE_INGREDIENTS,
+        type: FETCH_INGREDIENTS_SUCCESS,
         ingredients, 
     }
 )
 
 export const onFetchIngredientsFailed = () => (
     {
-        type: FETCH_INGREDIENTS_FAILED,
+        type: FETCH_INGREDIENTS_FAILURE,
     }
 )
 
 export const onFetchIngredients = () => {
     return dispatch => {
-        dispatch(onIngredientsLoading());
+        dispatch(onFetchIngredientsStart());
         axios.get('/ingredients.json')
             .then(response => {
-                dispatch(onIngredientsLoaded());
-                dispatch(onStoreIngredients(response.data));
+                // dispatch(onIngredientsLoaded());
+                dispatch(fetchIngredientsSuccess(response.data));
             })
             .catch(error => {
-                dispatch(onIngredientsLoaded());
+                // dispatch(onIngredientsLoaded());
                 dispatch(onFetchIngredientsFailed());
             })
     }
@@ -49,14 +50,14 @@ export const onRemoveIngredient = (ingredient) => (
     }
 )
 
-export const onIngredientsLoading = () => (
+export const onFetchIngredientsStart = () => (
     {
-        type: INGREDIENTS_LOADING_TRUE,
+        type: FETCH_INGREDIENTS_START,
     }
 )
 
-export const onIngredientsLoaded = () => (
-    {
-        type: INGREDIENTS_LOADING_FALSE,
-    }
-)
+// export const onIngredientsLoaded = () => (
+//     {
+//         type: INGREDIENTS_LOADING_FALSE,
+//     }
+// )
