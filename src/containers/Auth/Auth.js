@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -116,10 +117,16 @@ class Auth extends Component {
         ))
         
         let errorMessage = this.props.error ? <p>{this.props.error.message}</p> : null;
+        
+        let authenticated = null;    
 
+        if(this.props.isAuthenticated) {
+            authenticated = <Redirect to="/burgerbuilder"/>
+        }
         return (
             this.props.loading ? <Spinner/> :
             <div className={classes.Auth}>
+                {authenticated}
                 {errorMessage}
                 <form onSubmit={this.submitHandler}>
                     {form}
@@ -139,6 +146,7 @@ const mapStateToProps = state => (
     {
         loading : state.auth.loading,
         error : state.auth.error,
+        isAuthenticated : state.auth.token !== null,
     }
 )
 
