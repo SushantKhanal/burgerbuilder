@@ -4,6 +4,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import classes from './Auth.module.css';
 import * as actionCreators from '../../store/actions';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Auth extends Component {
     state = {
@@ -77,8 +78,8 @@ class Auth extends Component {
         }
         this.setState({
             controls: updatedForm,
-            formIsValid: isValid,
-            // formIsValid: true,
+            // formIsValid: isValid,
+            formIsValid: true,
         })
     }
 
@@ -96,6 +97,7 @@ class Auth extends Component {
     }
 
     render() {
+
         const formElementArray = Object.keys(this.state.controls).map(
             key=> ({id: key, config: this.state.controls[key]})
             );
@@ -111,9 +113,14 @@ class Auth extends Component {
                 value={formElement.config.value}
                 changed={(event)=>this.inputChangedHandler(event, formElement.id)}
             />
-        ))    
+        ))
+        
+        let errorMessage = this.props.error ? <p>{this.props.error.message}</p> : null;
+
         return (
+            this.props.loading ? <Spinner/> :
             <div className={classes.Auth}>
+                {errorMessage}
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType="Success" disabled={!this.state.formIsValid}>Submit</Button>
@@ -123,9 +130,17 @@ class Auth extends Component {
                 </Button>
             </div>
         )
+
     }
 
 }
+
+const mapStateToProps = state => (
+    {
+        loading : state.auth.loading,
+        error : state.auth.error,
+    }
+)
 
 const mapDispatchToProps = dispatch => (
     {
@@ -133,4 +148,4 @@ const mapDispatchToProps = dispatch => (
     }
 )
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
