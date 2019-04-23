@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import classes from './Auth.module.css';
+import * as actionCreators from '../../store/actions';
 
 class Auth extends Component {
     state = {
@@ -37,6 +39,7 @@ class Auth extends Component {
             }
         },
         formIsValid: false,
+        isSignup: true,
     }
 
     checkValidity = (value, rules) => {
@@ -75,7 +78,21 @@ class Auth extends Component {
         this.setState({
             controls: updatedForm,
             formIsValid: isValid,
+            // formIsValid: true,
         })
+    }
+
+    submitHandler = (event) => {
+        event.preventDefault();
+        this.props.onAuthRequest(
+            this.state.controls.email.value, 
+            this.state.controls.password.value,
+            this.state.isSignup    
+        );
+    }
+
+    switchAuthModeHandler = () => {
+        this.setState((prevState)=> ({isSignup: !prevState.isSignup}));
     }
 
     render() {
@@ -97,16 +114,23 @@ class Auth extends Component {
         ))    
         return (
             <div className={classes.Auth}>
-                <form>
+                <form onSubmit={this.submitHandler}>
                     {form}
-                    <Button clicked = {()=>{console.log("clicked")}}
-                        btnType="Success" disabled={!this.state.formIsValid}
-                    >Submit</Button>
+                    <Button btnType="Success" disabled={!this.state.formIsValid}>Submit</Button>
                 </form>
+                <Button btnType="Danger" clicked = {this.switchAuthModeHandler}>
+                    Switch to {this.state.isSignup ? 'Sign In' : 'Sign Up'}
+                </Button>
             </div>
         )
     }
 
 }
 
-export default Auth;
+const mapDispatchToProps = dispatch => (
+    {
+        onAuthRequest : (email, password, isSignup) => (dispatch(actionCreators.onAuthRequest(email, password, isSignup))),
+    }
+)
+
+export default connect(null, mapDispatchToProps)(Auth);

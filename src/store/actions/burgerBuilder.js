@@ -26,11 +26,9 @@ export const onFetchIngredients = () => {
         dispatch(onFetchIngredientsStart());
         axios.get('/ingredients.json')
             .then(response => {
-                // dispatch(onIngredientsLoaded());
                 dispatch(fetchIngredientsSuccess(response.data));
             })
             .catch(error => {
-                // dispatch(onIngredientsLoaded());
                 dispatch(onFetchIngredientsFailed());
             })
     }
@@ -55,9 +53,3 @@ export const onFetchIngredientsStart = () => (
         type: FETCH_INGREDIENTS_START,
     }
 )
-
-// export const onIngredientsLoaded = () => (
-//     {
-//         type: INGREDIENTS_LOADING_FALSE,
-//     }
-// )
