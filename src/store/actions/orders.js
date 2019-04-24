@@ -66,8 +66,7 @@ export const onPurchaseBurger = (order, token) => {
                 dispatch(onPostOrderSuccess(order));
             })
             .catch(error => {
-                debugger;
-                console.log(error);
+
             })
     }
 

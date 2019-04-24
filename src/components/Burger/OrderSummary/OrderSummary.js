@@ -4,18 +4,6 @@ import Button from '../../UI/Button/Button'
 
 class OrderSummary extends Component  {
 
-    // shouldComponentUpdate(props) {
-    //     let shouldUpdateFlag = false;
-    //     if(this.props.purchasing) shouldUpdateFlag = true;
-    //     return shouldUpdateFlag;
-    // }
-
-    //this component could be a functional component
-
-    componentWillUpdate() {
-        console.log("Order Summary will update!")
-    }
-
     render () {
 
         const ingredientSummary = Object.keys(this.props.ingredients).reduce((accumulator,el)=>{
