@@ -11,7 +11,6 @@ const navigationItems = (props) => (
             :   <Aux>
                     <NavigationItem link="/orders">Orders</NavigationItem>
                     <NavigationItem link="/logout">LogOut</NavigationItem>
-
                 </Aux>
         }
     </ul>
