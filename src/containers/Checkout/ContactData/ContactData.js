@@ -8,6 +8,7 @@ import classes from './ContactData.module.css';
 import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actionCreators from '../../../store/actions';
+import { updateObject } from '../../../utils/utility';
 
 class ContactData extends Component {
 
@@ -143,16 +144,14 @@ class ContactData extends Component {
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
-        let updatedForm = {...this.state.orderForm};  
-        //this is not a deep clone, inner nested Objects like the values of country, name, delivery method are not cloned
-        //instead there is a pointer to the original and hence changing anything there will mutate the original state
-        let updatedFormObject = {...updatedForm[inputIdentifier]}
-        //since its the 'value' property we're going to update, it is enough
-        //but were we to update anything inside the object of elementConfig we would mutate the original state
-        updatedFormObject["value"] = event.target.value;
-        updatedFormObject.valid = this.checkValidity(event.target.value, updatedFormObject.validation);
-        updatedFormObject.touched = true;
-        updatedForm[inputIdentifier] = updatedFormObject;
+        let updatedFormObject = updateObject(this.state.orderForm[inputIdentifier], {
+            value: event.target.value,
+            valid: this.checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validation),
+            touched: true,
+        })
+        let updatedForm = updateObject(this.state.orderForm, {
+            [inputIdentifier]: updatedFormObject,
+        });
         let formIsValid = true;
         for(const key in updatedForm) {
             formIsValid = formIsValid && updatedForm[key].valid;
@@ -162,12 +161,8 @@ class ContactData extends Component {
         }
         this.setState(
             {
-                orderForm: {
-                            ...updatedForm,
-                            [inputIdentifier] : updatedFormObject,
-                           },
+                orderForm: updatedForm,
                 formIsValid,
-        
             }
         );
     }

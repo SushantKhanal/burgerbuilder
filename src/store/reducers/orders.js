@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions';  //same as './actions/index
-import * as utils from '../utility';
+import * as utils from '../../utils/utility';
 
 const initialState = {
     orders: [],
