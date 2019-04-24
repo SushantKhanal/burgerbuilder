@@ -97,6 +97,12 @@ class Auth extends Component {
         this.setState((prevState)=> ({isSignup: !prevState.isSignup}));
     }
 
+    componentDidMount () {
+        if(!this.props.building && this.props.authRedirectPath !== '/burgerbuilder'){
+            this.props.setAuthRedirectPath()
+        }
+    }
+
     render() {
 
         const formElementArray = Object.keys(this.state.controls).map(
@@ -121,7 +127,7 @@ class Auth extends Component {
         let authenticated = null;    
 
         if(this.props.isAuthenticated) {
-            authenticated = <Redirect to="/burgerbuilder"/>
+            authenticated = <Redirect to={this.props.authRedirectPath}/>
         }
         return (
             this.props.loading ? <Spinner/> :
@@ -147,12 +153,15 @@ const mapStateToProps = state => (
         loading : state.auth.loading,
         error : state.auth.error,
         isAuthenticated : state.auth.token !== null,
+        building: state.burgerBuilder.building,
+        authRedirectPath: state.auth.authRedirectPath,
     }
 )
 
 const mapDispatchToProps = dispatch => (
     {
         onAuthRequest : (email, password, isSignup) => (dispatch(actionCreators.onAuthRequest(email, password, isSignup))),
+        setAuthRedirectPath : () => (dispatch(actionCreators.setAuthRedirectPath('/burgerbuilder'))),
     }
 )
 
