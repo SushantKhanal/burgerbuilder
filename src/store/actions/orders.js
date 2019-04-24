@@ -21,10 +21,11 @@ export const onStoreOrders = (orders) => (
     }
 )
 
-export const onFetchOrders = (token) => {
+export const onFetchOrders = (token, userId) => {
     return dispatch => {
         dispatch(onOrdersLoading());
-        axios.get('/orders.json?auth='+token)
+        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+        axios.get('/orders.json' + queryParams)
             .then(response => {
                 dispatch(onOrdersLoaded());
                 const orders = Object.keys(response.data).map(responseKey => ({
